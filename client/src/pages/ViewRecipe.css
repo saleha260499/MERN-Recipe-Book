@@ -1,0 +1,246 @@
+/* Ultra Pro Max Storybook Recipe (ViewRecipe.css) */
+
+/* PAGE */
+.vr-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 34px;
+    background: radial-gradient(circle at 10% 20%, #f6f6d0 0%, transparent 20%),
+        linear-gradient(135deg, #d7f0e1 0%, #e7ecf3 100%);
+    font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* Stage allows slight drag/parallax */
+.vr-stage {
+    width: 100%;
+    max-width: 1100px;
+    padding: 10px;
+}
+
+/* BOOK CONTAINER */
+.book-container.pro {
+    background: linear-gradient(180deg, #fff 0%, #fffafc 100%);
+    border-radius: 20px;
+    padding: 26px;
+    box-shadow:
+        0 20px 40px rgba(65, 20, 80, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        0 2px 12px rgba(180, 130, 180, 0.06);
+    position: relative;
+    overflow: visible;
+    border: 1px solid rgba(240, 200, 220, 0.6);
+    transform-origin: center;
+}
+
+/* Paper texture (subtle) */
+.book-container.pro::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(transparent 0%, rgba(0, 0, 0, 0.01) 50%, transparent 100%);
+    opacity: 0.03;
+    pointer-events: none;
+}
+
+/* Ribbon bookmark */
+.ribbon {
+    position: absolute;
+    left: 32px;
+    top: -6px;
+    background: linear-gradient(180deg, #ff6ea3, #ff8fb8);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-family: "Cookie", serif;
+    box-shadow: 0 6px 18px rgba(200, 80, 140, 0.18);
+    transform-origin: top left;
+}
+
+.ribbon span {
+    display: block;
+    transform: rotate(-6deg);
+}
+
+/* Pages wrapper: two-page layout */
+.pages-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+}
+
+/* Single page */
+.page {
+    background: linear-gradient(180deg, #fff 0%, #fffcff 100%);
+    border-radius: 12px;
+    padding: 26px;
+    min-height: 420px;
+    box-shadow: 0 10px 30px rgba(60, 30, 80, 0.06);
+    transform-origin: center;
+    backface-visibility: hidden;
+    perspective: 1200px;
+}
+
+/* inner wrappers */
+.left-inner,
+.right-inner {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* IMAGE */
+.recipe-image {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 14px;
+    margin: 6px auto 18px auto;
+    box-shadow: 0 10px 22px rgba(80, 40, 90, 0.14);
+    border: 6px solid rgba(255, 226, 239, 0.9);
+}
+
+/* TITLE */
+.title {
+    font-size: 26px;
+    color: #c81d68;
+    text-align: center;
+    margin: 2px 0 18px;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+    text-decoration: underline;
+    text-decoration-color: rgba(248, 130, 168, 0.25);
+}
+
+/* SECTION HEADINGS */
+.section-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+/* purple heading */
+.purple {
+    color: #6f42c1;
+}
+
+/* blue heading */
+.blue {
+    color: #1e6ef3;
+}
+
+/* content boxes */
+.box {
+    padding: 14px;
+    border-radius: 12px;
+    flex: 1 0 auto;
+    font-size: 15.5px;
+    line-height: 1.7;
+    color: #3b2f48;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* pastel boxes */
+.purple-box {
+    background: linear-gradient(180deg, #faf5ff, #f7f0ff);
+    border: 1px solid rgba(221, 191, 255, 0.6);
+}
+
+.blue-box {
+    background: linear-gradient(180deg, #f3fbff, #eef7ff);
+    border: 1px solid rgba(200, 220, 255, 0.6);
+}
+
+/* small decorative pills row on right page */
+.meta-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.pill {
+    background: #fff0f6;
+    border: 1px solid rgba(255, 160, 190, 0.25);
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 13px;
+    color: #7a375f;
+    box-shadow: 0 6px 18px rgba(120, 70, 120, 0.06);
+}
+
+/* content paragraph */
+.content.whitespace {
+    white-space: pre-wrap;
+    color: #3b3242;
+}
+
+/* footer */
+.book-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 18px;
+}
+
+.back-btn {
+    background: linear-gradient(180deg, #ff9ab3, #ff6ea3);
+    color: rgb(249, 249, 249);
+    border: none;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 10px 24px rgba(255, 120, 160, 0.18);
+}
+
+/* small hover */
+.back-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* Responsiveness */
+@media (max-width: 920px) {
+    .pages-wrapper {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .meta-row {
+        justify-content: flex-start;
+    }
+
+    .recipe-image {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .book-container.pro {
+        padding: 18px;
+        border-radius: 14px;
+    }
+
+    .page {
+        min-height: 360px;
+        padding: 18px;
+    }
+}
+
+/* small device */
+@media (max-width: 420px) {
+    .recipe-image {
+        width: 120px;
+        height: 120px;
+    }
+
+    .title {
+        font-size: 20px;
+    }
+
+    .book-container.pro {
+        padding: 14px;
+    }
+}
