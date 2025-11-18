@@ -10,6 +10,8 @@ export default function ViewRecipe({ recipes, searchTerm }) {
     // subtle parallax for the whole card
     const x = useMotionValue(0);
     const rotate = useTransform(x, [-200, 200], [-3, 3]);
+
+
     // ❌ If no recipe found
     if (!recipe)
         return <h2 className="not-found">Recipe not found</h2>;
