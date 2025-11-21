@@ -11,11 +11,12 @@ function AddRecipe() {
     const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        const res = await fetch("https://mern-recipebook-backend.onrender.com/api/recipes", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(newRecipe),
-        });
+       const res = await fetch("https://mern-recipebook-backend.onrender.com/api/recipes", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(newRecipe),
+});
+
 
         const data = await res.json();
         alert("Recipe added successfully!");
