@@ -7,7 +7,7 @@ function Navbar({ searchTerm, setSearchTerm }) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch("http://localhost:5000/api/recipes")
+       fetch(`${process.env.REACT_APP_API_URL}/recipes`)
             .then(res => res.json())
             .then(data =>
                 setAllRecipes(Array.isArray(data) ? data : data.recipes || [])
