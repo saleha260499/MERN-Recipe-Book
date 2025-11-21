@@ -8,21 +8,27 @@ function AddRecipe() {
         image: "",
     });
 
-    const handleChange = (e) => {
-        setNewRecipe({ ...newRecipe, [e.target.name]: e.target.value });
-    };
-
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        const res = await fetch("https://mern-recipebook-backend.onrender.com/api/recipes"), {
+    e.preventDefault();
+    try {
+        const res = await fetch("https://mern-recipebook-backend.onrender.com/api/recipes", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(newRecipe),
         });
-        await res.json();
+
+        const data = await res.json();
         alert("Recipe added successfully!");
         setNewRecipe({ title: "", ingredients: "", instructions: "", image: "" });
-    };
+
+        // Optionally, update your recipes state if needed:
+        // setRecipes(prev => [...prev, data]);
+    } catch (error) {
+        console.error("Error adding recipe:", error);
+        alert("Failed to add recipe.");
+    }
+};
+
 
     return (
         <div style={{ padding: "20px" }}>
