@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 
 function Navbar({ searchTerm, setSearchTerm }) {
   const [allRecipes, setAllRecipes] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false); // track dropdown visibility
   const navigate = useNavigate();
+  const wrapperRef = useRef(null); // ref for detecting outside clicks
 
   // Fetch recipes from backend
   useEffect(() => {
@@ -20,10 +22,23 @@ function Navbar({ searchTerm, setSearchTerm }) {
       }
     };
 
-    fetchRecipes(); // CALL the function inside useEffect
+    fetchRecipes();
   }, []);
 
-  // Filter suggestions dynamically (outside useEffect)
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  // Filter suggestions dynamically
   const suggestions = searchTerm
     ? allRecipes.filter(
         (r) => r.title && r.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -32,6 +47,7 @@ function Navbar({ searchTerm, setSearchTerm }) {
 
   const handleSelect = (id, title) => {
     setSearchTerm(title);
+    setShowSuggestions(false);
     navigate(`/view/${id}`);
   };
 
@@ -51,29 +67,73 @@ function Navbar({ searchTerm, setSearchTerm }) {
         </Link>
       </h2>
 
-      <div className="search-wrapper">
+      <div className="search-wrapper" ref={wrapperRef} style={{ position: "relative" }}>
         <input
           type="text"
           placeholder="Search recipes..."
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            setShowSuggestions(true); // show suggestions while typing
+          }}
           className="search-input"
+          style={{ paddingRight: "30px" }}
         />
 
-        {/* Dropdown Suggestion Box */}
+        {/* Clear X button */}
         {searchTerm && (
-          <ul className="suggestions-box">
+          <button
+            onClick={() => {
+              setSearchTerm("");
+              setShowSuggestions(false);
+            }}
+            style={{
+              position: "absolute",
+              right: "5px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              border: "none",
+              background: "transparent",
+              cursor: "pointer",
+              fontSize: "16px",
+              color: "#999",
+            }}
+          >
+            ×
+          </button>
+        )}
+
+        {/* Dropdown Suggestion Box */}
+        {showSuggestions && searchTerm && (
+          <ul
+            className="suggestions-box"
+            style={{
+              position: "absolute",
+              top: "100%",
+              left: 0,
+              right: 0,
+              background: "white",
+              border: "1px solid #ddd",
+              maxHeight: "200px",
+              overflowY: "auto",
+              zIndex: 1000,
+              listStyle: "none",
+              margin: 0,
+              padding: 0,
+            }}
+          >
             {suggestions.length > 0 ? (
               suggestions.map((recipe) => (
                 <li
                   key={recipe._id}
                   onClick={() => handleSelect(recipe._id, recipe.title)}
+                  style={{ padding: "8px", cursor: "pointer" }}
                 >
                   {recipe.title}
                 </li>
               ))
             ) : (
-              <li style={{ color: "#999" }}>No recipes found</li>
+              <li style={{ padding: "8px", color: "#999" }}>No recipes found</li>
             )}
           </ul>
         )}
