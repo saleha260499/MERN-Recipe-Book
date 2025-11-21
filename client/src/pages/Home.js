@@ -5,7 +5,7 @@ function Home({ searchTerm }) {
     const [recipes, setRecipes] = useState([]);
 
     useEffect(() => {
-        fetch("http://localhost:5000/api/recipes")
+        fetch("https://mern-recipebook-backend.onrender.com/api/recipes")
             .then((res) => res.json())
             .then((data) =>
                 setRecipes(Array.isArray(data) ? data : data.recipes || [])
