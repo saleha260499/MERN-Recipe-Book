@@ -23,7 +23,7 @@ function Home({ searchTerm }) {
         if (!confirmDelete) return;
 
         try {
-            const res = await fetch(`http://localhost:5000/api/recipes/${id}`, {
+            const res = await fetch(`http://mern-recipebook-backend.onrender.com/api/recipes/${id}`, {
                 method: "DELETE",
             });
 
