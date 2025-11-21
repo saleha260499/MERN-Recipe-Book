@@ -23,12 +23,14 @@ function Home({ searchTerm }) {
         const confirmDelete = window.confirm("Are you sure you want to delete this recipe?");
         if (!confirmDelete) return;
 
-        try {
-            const res = await fetch(`http://mern-recipebook-backend.onrender.com/api/recipes/${id}`, {
-                method: "DELETE",
-            });
+        try {  const res = await fetch(
+      `https://mern-recipebook-backend.onrender.com/api/recipes/${id}`,
+      {
+        method: "DELETE",
+      }
+    );
 
-            if (res.ok) {
+         if (res.ok) {
                 alert("Recipe deleted successfully!");
                 window.location.reload();
             } else {
