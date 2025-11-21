@@ -11,7 +11,7 @@ function App() {
 
 
   useEffect(() => {
-    fetch("https://mern-recipebook-backend.onrender.com/api/recipes")
+    fetch(`${process.env.REACT_APP_API_URL}/recipes`)
       .then(res => res.json())
       .then(data => setRecipes(Array.isArray(data) ? data : data.recipes || []))
       .catch(err => console.error(err));
