@@ -7,13 +7,15 @@ function Navbar({ searchTerm, setSearchTerm }) {
     const navigate = useNavigate();
 
     useEffect(() => {
-       fetch("https://mern-recipebook-backend.onrender.com/api/recipes")
-            .then(res => res.json())
-            .then(data =>
-                setAllRecipes(Array.isArray(data) ? data : data.recipes || [])
-            );
-    }, []);
-
+         const fetchRecipes = async () => {
+      try {
+        const res = await fetch("https://mern-recipebook-backend.onrender.com/api/recipes");
+        const data = await res.json();
+        setAllRecipes(Array.isArray(data) ? data : data.recipes || []);
+      } catch (error) {
+        console.error("Error fetching recipes:", error);
+      }
+    }
     // Filter suggestions
     const suggestions = searchTerm
         ? allRecipes.filter(r =>
