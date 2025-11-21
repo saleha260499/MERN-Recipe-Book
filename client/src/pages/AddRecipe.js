@@ -22,6 +22,7 @@ function AddRecipe() {
         await res.json();
         alert("Recipe added successfully!");
         setNewRecipe({ title: "", ingredients: "", instructions: "", image: "" });
+        window.location.reload();
     };
 
     return (
