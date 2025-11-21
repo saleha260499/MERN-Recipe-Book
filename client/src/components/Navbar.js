@@ -6,10 +6,13 @@ function Navbar({ searchTerm, setSearchTerm }) {
   const [allRecipes, setAllRecipes] = useState([]);
   const navigate = useNavigate();
 
+  // Fetch recipes from backend
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const res = await fetch("https://mern-recipebook-backend.onrender.com/api/recipes");
+        const res = await fetch(
+          "https://mern-recipebook-backend.onrender.com/api/recipes"
+        );
         const data = await res.json();
         setAllRecipes(Array.isArray(data) ? data : data.recipes || []);
       } catch (error) {
@@ -17,13 +20,13 @@ function Navbar({ searchTerm, setSearchTerm }) {
       }
     };
 
-    fetchRecipes(); // <-- CALL the function
+    fetchRecipes(); // CALL the function inside useEffect
   }, []);
 
-  // Filter suggestions
+  // Filter suggestions dynamically (outside useEffect)
   const suggestions = searchTerm
-    ? allRecipes.filter(r =>
-        r.title.toLowerCase().includes(searchTerm.toLowerCase())
+    ? allRecipes.filter(
+        (r) => r.title && r.title.toLowerCase().includes(searchTerm.toLowerCase())
       )
     : [];
 
@@ -58,16 +61,20 @@ function Navbar({ searchTerm, setSearchTerm }) {
         />
 
         {/* Dropdown Suggestion Box */}
-        {searchTerm && suggestions.length > 0 && (
+        {searchTerm && (
           <ul className="suggestions-box">
-            {suggestions.map((recipe) => (
-              <li
-                key={recipe._id}
-                onClick={() => handleSelect(recipe._id, recipe.title)}
-              >
-                {recipe.title}
-              </li>
-            ))}
+            {suggestions.length > 0 ? (
+              suggestions.map((recipe) => (
+                <li
+                  key={recipe._id}
+                  onClick={() => handleSelect(recipe._id, recipe.title)}
+                >
+                  {recipe.title}
+                </li>
+              ))
+            ) : (
+              <li style={{ color: "#999" }}>No recipes found</li>
+            )}
           </ul>
         )}
       </div>
