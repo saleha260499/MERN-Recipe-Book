@@ -5,31 +5,45 @@ function AddRecipe() {
     title: "",
     ingredients: "",
     instructions: "",
-    image: "",
+    image: null, // File object
   });
 
-  // Handle input changes
+  // Handle text inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
     setNewRecipe((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Handle file input
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setNewRecipe((prev) => ({ ...prev, image: file }));
+  };
+
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      const res = await fetch("https://mern-recipebook-backend.onrender.com/api/recipes", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newRecipe),
-      });
+      const formData = new FormData();
+      formData.append("title", newRecipe.title);
+      formData.append("ingredients", newRecipe.ingredients);
+      formData.append("instructions", newRecipe.instructions);
+      if (newRecipe.image) {
+        formData.append("image", newRecipe.image);
+      }
+
+      const res = await fetch(
+        "https://mern-recipebook-backend.onrender.com/api/recipes",
+        {
+          method: "POST",
+          body: formData, // Send as multipart/form-data
+        }
+      );
 
       const data = await res.json();
       alert("Recipe added successfully!");
-      setNewRecipe({ title: "", ingredients: "", instructions: "", image: "" });
-
-      // Optionally update recipes state if needed
-      // setRecipes(prev => [...prev, data]);
+      setNewRecipe({ title: "", ingredients: "", instructions: "", image: null });
     } catch (error) {
       console.error("Error adding recipe:", error);
       alert("Failed to add recipe.");
@@ -69,13 +83,13 @@ function AddRecipe() {
           style={{ margin: "10px 0", padding: "10px" }}
         />
         <input
-          type="text"
+          type="file"
           name="image"
-          placeholder="Image URL"
-          value={newRecipe.image}
-          onChange={handleChange}
+          accept="image/*"
+          onChange={handleFileChange}
           style={{ margin: "10px 0", padding: "10px" }}
         />
+
         <button
           type="submit"
           style={{
