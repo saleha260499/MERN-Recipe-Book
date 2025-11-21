@@ -7,7 +7,7 @@ function Navbar({ searchTerm, setSearchTerm }) {
     const navigate = useNavigate();
 
     useEffect(() => {
-       fetch(`${process.env.REACT_APP_API_URL}/recipes`)
+       fetch("https://mern-recipebook-backend.onrender.com/api/recipes")
             .then(res => res.json())
             .then(data =>
                 setAllRecipes(Array.isArray(data) ? data : data.recipes || [])
