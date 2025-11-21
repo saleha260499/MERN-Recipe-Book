@@ -5,13 +5,14 @@ function Home({ searchTerm }) {
     const [recipes, setRecipes] = useState([]);
 
     useEffect(() => {
-        fetch("https://mern-recipebook-backend.onrender.com/api/recipes")
-            .then((res) => res.json())
-            .then((data) =>
-                setRecipes(Array.isArray(data) ? data : data.recipes || [])
-            )
-            .catch((err) => console.error(err));
-    }, []);
+    fetch("https://mern-recipebook-backend.onrender.com/api/recipes")
+        .then((res) => res.json()) // Parse response as JSON
+        .then((data) =>
+            setRecipes(Array.isArray(data) ? data : data.recipes || []) // Handle array or object
+        )
+        .catch((err) => console.error(err)); // Handle errors
+}, []);
+
 
     // 🔍 Filter recipes based on search term
     const filteredRecipes = recipes.filter((recipe) =>
