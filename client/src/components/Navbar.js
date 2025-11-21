@@ -99,7 +99,7 @@ function Navbar({ searchTerm, setSearchTerm }) {
               color: "#999",
             }}
           >
-            ×
+            Clear❌
           </button>
         )}
 
