@@ -1,79 +1,96 @@
 import React, { useState } from "react";
 
 function AddRecipe() {
-    const [newRecipe, setNewRecipe] = useState({
-        title: "",
-        ingredients: "",
-        instructions: "",
-        image: "",
-    });
+  const [newRecipe, setNewRecipe] = useState({
+    title: "",
+    ingredients: "",
+    instructions: "",
+    image: "",
+  });
 
-    const handleSubmit = async (e) => {
+  // Handle input changes
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setNewRecipe((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-       const res = await fetch("https://mern-recipebook-backend.onrender.com/api/recipes", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(newRecipe),
-});
+      const res = await fetch("https://mern-recipebook-backend.onrender.com/api/recipes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newRecipe),
+      });
 
+      const data = await res.json();
+      alert("Recipe added successfully!");
+      setNewRecipe({ title: "", ingredients: "", instructions: "", image: "" });
 
-        const data = await res.json();
-        alert("Recipe added successfully!");
-        setNewRecipe({ title: "", ingredients: "", instructions: "", image: "" });
-
-        // Optionally, update your recipes state if needed:
-        // setRecipes(prev => [...prev, data]);
+      // Optionally update recipes state if needed
+      // setRecipes(prev => [...prev, data]);
     } catch (error) {
-        console.error("Error adding recipe:", error);
-        alert("Failed to add recipe.");
+      console.error("Error adding recipe:", error);
+      alert("Failed to add recipe.");
     }
-};
+  };
 
-
-    return (
-        <div style={{ padding: "20px" }}>
-            <h1 style={{ color: "#D36B82" }}>Add New Recipe</h1>
-            <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", maxWidth: "400px" }}>
-                <input
-                    type="text"
-                    name="title"
-                    placeholder="Title"
-                    value={newRecipe.title}
-                    onChange={handleChange}
-                    required
-                    style={{ margin: "10px 0", padding: "10px" }}
-                />
-                <textarea
-                    name="ingredients"
-                    placeholder="Ingredients"
-                    value={newRecipe.ingredients}
-                    onChange={handleChange}
-                    required
-                    style={{ margin: "10px 0", padding: "10px" }}
-                />
-                <textarea
-                    name="instructions"
-                    placeholder="Instructions"
-                    value={newRecipe.instructions}
-                    onChange={handleChange}
-                    required
-                    style={{ margin: "10px 0", padding: "10px" }}
-                />
-                <input
-                    type="text"
-                    name="image"
-                    placeholder="Image URL"
-                    value={newRecipe.image}
-                    onChange={handleChange}
-                    style={{ margin: "10px 0", padding: "10px" }}
-                />
-                <button type="submit" style={{ backgroundColor: "#D36B82", color: "white", padding: "10px", border: "none", borderRadius: "8px" }}>
-                    Add Recipe
-                </button>
-            </form>
-        </div>
-    );
+  return (
+    <div style={{ padding: "20px" }}>
+      <h1 style={{ color: "#D36B82" }}>Add New Recipe</h1>
+      <form
+        onSubmit={handleSubmit}
+        style={{ display: "flex", flexDirection: "column", maxWidth: "400px" }}
+      >
+        <input
+          type="text"
+          name="title"
+          placeholder="Title"
+          value={newRecipe.title}
+          onChange={handleChange}
+          required
+          style={{ margin: "10px 0", padding: "10px" }}
+        />
+        <textarea
+          name="ingredients"
+          placeholder="Ingredients"
+          value={newRecipe.ingredients}
+          onChange={handleChange}
+          required
+          style={{ margin: "10px 0", padding: "10px" }}
+        />
+        <textarea
+          name="instructions"
+          placeholder="Instructions"
+          value={newRecipe.instructions}
+          onChange={handleChange}
+          required
+          style={{ margin: "10px 0", padding: "10px" }}
+        />
+        <input
+          type="text"
+          name="image"
+          placeholder="Image URL"
+          value={newRecipe.image}
+          onChange={handleChange}
+          style={{ margin: "10px 0", padding: "10px" }}
+        />
+        <button
+          type="submit"
+          style={{
+            backgroundColor: "#D36B82",
+            color: "white",
+            padding: "10px",
+            border: "none",
+            borderRadius: "8px",
+          }}
+        >
+          Add Recipe
+        </button>
+      </form>
+    </div>
+  );
 }
 
 export default AddRecipe;
