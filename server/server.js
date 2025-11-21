@@ -16,7 +16,8 @@ app.use("/api/recipes", recipeRoutes);
 
 
 // MongoDB connection
-mongoose.connect(process.env.MONGO_URI)
+const MONGO_URI = "mongodb+srv://saleha_user:Saleha123@cluster0.mindwzn.mongodb.net/RecipeBook";
+mongoose.connect(MONGO_URI)
     .then(() => console.log('✅ MongoDB connected successfully'))
     .catch((err) => console.error('❌ MongoDB connection failed:', err));
 
